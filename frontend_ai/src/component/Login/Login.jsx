@@ -6,6 +6,8 @@ import {auth, provider} from '../../utils/firebase';
 import {signInWithPopup} from 'firebase/auth';
 import {AuthContext} from '../../utils/authContext';
 import {useNavigate} from 'react-router-dom';
+import axios from '../../utils/axios';
+
 
 const Login = () => {
   const {isLogin, setLogin, userInfo, setUserInfo}=useContext(AuthContext);
@@ -19,6 +21,11 @@ const Login = () => {
         email:user.email,
         photoUrl:user.photoURL
       }
+      await axios.post('/api/user',userData).then((response)=>{
+        console.log(response)
+      }).catch(err=>{
+        console.log(err)
+      })
       setLogin(true);
       setUserInfo(userData);
       localStorage.setItem("isLogin", true);

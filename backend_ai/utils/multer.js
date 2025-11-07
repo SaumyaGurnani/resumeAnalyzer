@@ -1,15 +1,15 @@
-const multer =require("multer");
-const path=require("path");
+const multer = require("multer");
 
+// 1. Use memoryStorage to keep the file as a buffer
+const storage = multer.memoryStorage();
 
-//Multer config
-const storage=multer.diskStorage({
-    destination: (req,file,cb)=> cb(null, "uploads/"),
-    filename: (req, file,cb)=>cb(null, Date.now()+path.extname(file.originalname))
-})
-
-const fileFilter=(req, file, cb)=>{
-    if(file.mimetype==='application/pdf') cb(null, true);
-    else cb(new Error('Only PDF allowed'), false);
+const fileFilter = (req, file, cb) => {
+    if (file.mimetype === 'application/pdf') {
+        cb(null, true);
+    } else {
+        cb(new Error('Only PDF allowed'), false);
+    }
 };
-exports.upload=multer({storage, fileFilter});
+
+// 2. Export multer with the new storage config
+exports.upload = multer({ storage: storage, fileFilter: fileFilter });
