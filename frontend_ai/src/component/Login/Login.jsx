@@ -22,15 +22,15 @@ const Login = () => {
         photoUrl:user.photoURL
       }
       await axios.post('/api/user',userData).then((response)=>{
-        console.log(response)
+        setUserInfo(response.data.user);
+        localStorage.setItem("userInfo",JSON.stringify(response.data.user));
       }).catch(err=>{
         console.log(err)
       })
       setLogin(true);
-      setUserInfo(userData);
       localStorage.setItem("isLogin", true);
-      localStorage.setItem("userInfo",JSON.stringify(userData))
-      navigate('/dashboard')
+      
+      navigate('/dashboard');
 
     }catch(err){
       alert("Something went wrong")

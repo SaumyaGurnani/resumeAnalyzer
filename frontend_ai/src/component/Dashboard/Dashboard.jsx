@@ -3,7 +3,39 @@ import styles from './Dashboard.module.css'
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
 import Skeleton from '@mui/material/Skeleton'
 import WithAuthHOC from '../../utils/HOC/withAuthHOC';
+import {useState} from 'react';
+import axios from '../../utils/axios';
+import {useContext} from 'react';
+import {AuthContext} from '../../utils/authContext';
 const Dashboard = () => {
+  const [uploadFiletext, setUploadFileText]=useState("Upload Your Resume");
+  const [loading, setLoading]=useState(false);
+  const [resumeFile, setResumeFile]=useState(null);
+  const [jobDesc, setJobDesc]=useState("");
+  const [result, setResult]=useState(null);
+  const {userInfo}=useContext(AuthContext)
+  const handleOnChangeFile=(e)=>{
+    setResumeFile(e.target.files[0]);
+    setUploadFileText(e.target.files[0].name)
+
+  }
+  const handleUpload=async()=>{
+    setResult(null);
+    if(!jobDesc || !resumeFile){
+      alert("Please fill Job Description & Upload Resume");
+      return;
+    }
+    const formData=new FormData();
+    formData.append("resume", resumeFile);
+    formData.append("job_desc", jobDesc);
+    formData.append("user", userInfo._id);
+    try{
+      const result=await axios.post('/api/resume/addResume', formData);
+      console.log(result)
+    }catch(err){
+      console.log(err)
+    }
+  }
   return (
     <div className={styles.Dashboard}>
       <div className={styles.DashboardLeft}>
@@ -20,17 +52,17 @@ const Dashboard = () => {
         </div>
         <div className={styles.DashboardUploadResume}>
           <div className={styles.DashboardResumeBlock}>
-            Upload Your Resume
+            {uploadFiletext}
           </div>
           <div className={styles.DashboardInputField}>
             <label htmlFor='inputField' className={styles.analyzeAIBtn}>Upload Resume</label>
-            <input type='file' accept=".pdf" id='inputField' />
+            <input type='file' accept=".pdf" id='inputField' onChange={handleOnChangeFile}/>
           </div>
         </div>
 
         <div className={styles.jobDesc}>
-          <textarea className={styles.textArea} placeholder='Paste Your Job Description' rows={10} cols={50}/>
-          <div className={styles.AnalyzeBtn}>Analyze</div>
+          <textarea value={jobDesc} onChange={(e)=>{setJobDesc(e.target.value)}} className={styles.textArea} placeholder='Paste Your Job Description' rows={10} cols={50}/>
+          <div className={styles.AnalyzeBtn} onClick={handleUpload}>Analyze</div>
         </div>
 
       </div>
