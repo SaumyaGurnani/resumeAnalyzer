@@ -19,6 +19,6 @@ const ResumeSchema=new mongoose.Schema({
     feedback:{
         type:String,
     },
-}, {timestaps: true});
+}, {timestamps: true});
 const resumeModel=mongoose.model("resume", ResumeSchema);
 module.exports=resumeModel;
