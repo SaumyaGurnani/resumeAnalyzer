@@ -8,7 +8,7 @@ require('./conn');
 app.use(express.json());
 app.use(cors({
     credentials: true,
-    origin: ["https://your-project-name.vercel.app", "http://localhost:5173"]
+    origin: ["https://resume-analyzer-48bz.vercel.app/", "http://localhost:5173"]
 }))
 
 const UserRoutes=require('./Routes/user');
