@@ -23,8 +23,8 @@ exports.addResume = async (req, res) => {
         // 3. Set up the prompt for the new Chat API
         const systemPrompt = `You are a resume screening assistant. 
 Compare the following resume text with the provided Job Description(JD).
-You must respond in the following format:
-Score: [score from 0-100] Feedback: [your detailed feedback]`;
+You must respond *only* in the following format, with no other text:
+Score: [ATS score from 0-100] Feedback: [your detailed feedback]`;
     
         const userMessage = `Resume:
 ${pdfData.text}
@@ -38,7 +38,7 @@ ${job_desc}`;
             preamble: systemPrompt,
             message: userMessage,
             max_tokens: 500, // Increased tokens for better feedback
-            temperature: 0.7,
+            temperature: 0.2,
         });
 
         // 5. Get the result from response.text

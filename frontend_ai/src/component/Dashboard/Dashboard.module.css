@@ -9,10 +9,20 @@
     box-sizing: border-box;
 }
 
+/* --- 1. ADD THIS NEW CLASS --- */
+/* This will wrap the left block and the result block */
+.DashboardMainColumn {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    gap: 30px; /* This adds space between the top box and the result box */
+}
+
+/* --- 2. CHANGE WIDTH IN THIS CLASS --- */
+/* We change this to 100% so it fills its new parent */
 .DashboardLeft{
-    width:70%;
+    width: 100%; /* <-- CHANGED FROM 70% */
     padding: 30px;
-    height: 100%;
     height: fit-content;
     box-sizing: border-box;
     background-color: #f4f6fa;
@@ -127,6 +137,7 @@ input{
     align-items: center;
     justify-content: center;
     box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    background-color: #f4f6fa; /* Added background to match */
 }
 .DashboardRightTopCard div:first-child{
     font-size: 22px;
@@ -139,13 +150,32 @@ input{
     margin: 20px 0;
 }
 
+/* --- 3. ADD THESE CLASSES FOR MARKDOWN STYLING --- */
+.feedback {
+  width: 100%;
+}
+.feedback p {
+  white-space: pre-wrap; /* This respects \n newlines */
+  margin: 0;
+}
+.feedback strong {
+  font-weight: 700; /* This styles **bold** text */
+}
+
 @media screen and (max-width:780px){
     .Dashboard{
         flex-direction:column;
     }
+
+    /* --- 4. UPDATE MEDIA QUERIES --- */
+    .DashboardMainColumn {
+        width: 100%;
+        gap: 30px;
+    }
     .DashboardLeft{
         width: 100%;
     }
+
     .DashboardHeaderTitle{
         font-size:26px;
     }
@@ -155,7 +185,6 @@ input{
     .DashboardRight{
         width: 100%;
         margin-top: 30px;
-
     }
     .DashboardUploadResume{
         flex-direction: column;
