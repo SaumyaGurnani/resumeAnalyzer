@@ -1,9 +1,29 @@
-import React from 'react'
-import styles from './History.module.css'
-import Skeleton from '@mui/material/Skeleton'
-import WithAuthHOC from '../../utils/HOC/withAuthHOC'
 
+import styles from './History.module.css';
+import Skeleton from '@mui/material/Skeleton';
+import WithAuthHOC from '../../utils/HOC/withAuthHOC';
+import {useState, useEffect , useContext} from 'react';
+import axios from '../../utils/axios';
+import {AuthContext} from '../../utils/authContext';
 const History = () => {
+  const [data, setData]=useState([]);
+  const [loader, setLoader]=useState(false);
+  const {userInfo}=useContext(AuthContext);
+
+  useEffect(()=>{
+    const fetchUserData=async()=>{
+      try{
+        const results=await axios.get(`/api/resume/get/${userInfo?._id}`);
+        console.log(results);
+      }
+      catch(err){
+        console.log(err)
+        alert("Something went wrong")
+      }
+    }
+    fetchUserData()
+  }, [])
+
   return (
     <div className={styles.History}>
       <div className={styles.HistoryCardBlock}>
