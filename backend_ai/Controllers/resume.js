@@ -5,7 +5,8 @@ const { CohereClient } = require("cohere-ai");
 // const fs = require("fs"); // No longer needed
 
 const cohere = new CohereClient({
-    token: "pMwTtoOWqStt5efjemYVE2q57c8fl90cfMq44GzI",
+    token: process.env.COHERE_TOKEN,
+    //"pMwTtoOWqStt5efjemYVE2q57c8fl90cfMq44GzI"
 });
 
 exports.addResume = async (req, res) => {

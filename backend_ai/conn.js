@@ -1,5 +1,6 @@
 const mongoose=require('mongoose');
-mongoose.connect('mongodb+srv://saumyagurnani73_db_user:4RORqvVAXrjpZ6kL@clusterra.f3kkkw5.mongodb.net/?appName=ClusterRA').then((res)=>
+const connectionString=process.env.DATABASE_URL;
+mongoose.connect(connectionString).then((res)=>
   {
       console.log("Database Connected Successfully")
         }).catch(err=>{
