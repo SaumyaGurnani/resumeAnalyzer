@@ -6,10 +6,18 @@ const PORT = process.env.PORT || 4000;
 const path=require('path')
 require('./conn');
 app.use(express.json());
+// A list of all domains that are allowed to make requests to this backend
+const allowedOrigins = [
+  "http://localhost:5173",                         // For local development
+  "https://resume-analyzer-48bz.vercel.app",       // Your Vercel frontend
+  "https://resume-analyzer-backend-1nl2.onrender.com" // To allow login from the backend URL itself
+];
+
 app.use(cors({
     credentials: true,
-    origin: ["https://resume-analyzer-48bz.vercel.app/", "http://localhost:5173"]
-}))
+    origin: allowedOrigins
+}));
+
 
 const UserRoutes=require('./Routes/user');
 const ResumeRoutes=require('./Routes/resume')
