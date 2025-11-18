@@ -25,7 +25,7 @@ exports.addResume = async (req, res) => {
         const systemPrompt = `You are a resume screening assistant. 
 Compare the following resume text with the provided Job Description(JD).
 You must respond *only* in the following format, with no other text:
-Score: [ATS score from 0-100] Feedback: [your detailed feedback]`;
+Score: [ATS score from 0-100] SkillMatch: [skill match percentage from 0.0 to 100.0, with one decimal digit, e.g., 60.7] Feedback: [your detailed feedback]`; // MODIFIED PROMPT
     
         const userMessage = `Resume:
 ${pdfData.text}
@@ -45,17 +45,26 @@ ${job_desc}`;
         // 5. Get the result from response.text
         let result = response.text;
         //console.log(result);
-        const match=result.match(/Score:\s*(\d+)/);
-        const score=match? parseInt(match[1], 10):null;
-        const feedbackMatch=result.match(/Feedback:\s*([\s\S]*)/);
-        const Feedback=feedbackMatch? feedbackMatch[1].trim():null;
-       // console.log(score);
-       // console.log(Feedback);
-       const newResume=new ResumeModel({
+        
+        const scoreMatch = result.match(/Score:\s*(\d+)/);
+        const score = scoreMatch ? parseInt(scoreMatch[1], 10) : null;
+        
+        // New regex to extract the skill match percentage (captures a number with an optional decimal and one digit)
+        const skillMatch = result.match(/SkillMatch:\s*(\d{1,3}(?:\.\d)?)/); 
+        const skill_match = skillMatch ? parseFloat(skillMatch[1]) : null; // Use parseFloat for decimal value
+
+        const feedbackMatch = result.match(/Feedback:\s*([\s\S]*)/);
+        const Feedback = feedbackMatch ? feedbackMatch[1].trim() : null;
+       
+        // console.log(score);
+        // console.log(Feedback);
+       
+        const newResume=new ResumeModel({
             user,
             resume_name: req.file.originalname,
             job_desc,
             score: score,
+            skill_match: skill_match, // Added new field
             feedback: Feedback
        });
        await newResume.save();

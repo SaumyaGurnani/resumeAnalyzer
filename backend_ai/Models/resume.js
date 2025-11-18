@@ -16,6 +16,7 @@ const ResumeSchema=new mongoose.Schema({
     score:{
         type: String,
     },
+    skill_match: { type: Number },
     feedback:{
         type:String,
     },
