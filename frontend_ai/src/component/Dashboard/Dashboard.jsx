@@ -100,10 +100,20 @@ const Dashboard = () => {
               style={{width: '100%', boxSizing: 'border-box', alignItems: 'flex-start'}}
             >
               <div>Result</div>
-              <div style={{display:"flex", justifyContent:"center", alignItems:"center", gap: 20}}>
-                <h1>{result?.score}/100</h1>
-                <QueryStatsIcon sx={{fontSize: 22}}/>
+              
+              {/* Display Score and Skill Match Percentage */}
+              <div style={{ marginTop: '10px', marginBottom: '15px' }}>
+                {/* Score */}
+                <div style={{display:"flex", alignItems:"center", gap: 10, marginBottom: '5px'}}>
+                  <h2 style={{margin: 0}}>Score: {result?.score}/100</h2>
+                  <QueryStatsIcon sx={{fontSize: 22}}/>
+                </div>
+                {/* Skill Match Percentage - ADDED THIS BLOCK */}
+                <div style={{ fontSize: '1.2em', fontWeight: 'bold', color: '#007bff' }}>
+                  Skill Match Percentage: {result?.skill_match}%
+                </div>
               </div>
+              
               <div className={styles.feedback}>
                 <h3>Feedback</h3>
                 {/* Use ReactMarkdown to render the feedback */}
