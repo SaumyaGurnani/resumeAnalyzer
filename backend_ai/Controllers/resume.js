@@ -44,8 +44,8 @@ ${job_desc}`;
 
         // 5. Get the result from response.text
         let result = response.text;
-        //console.log(result);
         
+        // Extract Score
         const scoreMatch = result.match(/Score:\s*(\d+)/);
         const score = scoreMatch ? parseInt(scoreMatch[1], 10) : null;
         
@@ -53,18 +53,17 @@ ${job_desc}`;
         const skillMatch = result.match(/SkillMatch:\s*(\d{1,3}(?:\.\d)?)/); 
         const skill_match = skillMatch ? parseFloat(skillMatch[1]) : null; // Use parseFloat for decimal value
 
+        // Extract Feedback
         const feedbackMatch = result.match(/Feedback:\s*([\s\S]*)/);
         const Feedback = feedbackMatch ? feedbackMatch[1].trim() : null;
        
-        // console.log(score);
-        // console.log(Feedback);
-       
+        
         const newResume=new ResumeModel({
             user,
             resume_name: req.file.originalname,
             job_desc,
             score: score,
-            skill_match: skill_match, // Added new field
+            skill_match: skill_match, // ADDED skill_match
             feedback: Feedback
        });
        await newResume.save();
